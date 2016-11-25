@@ -6,6 +6,8 @@ var reloadState = {
 
 //When extension is clicke, toggle the state of the extenstion
 chrome.browserAction.onClicked.addListener(function(tab) {
+  console.log("Clicked");
+
   //Select the tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     var activeTab = tabs[0];
@@ -14,11 +16,10 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     //Send the updated state to the page
     chrome.tabs.sendMessage(activeTab.id, reloadState);
 
-    //Update the extension icon depending on the state
     if (reloadState.active) {
-      chrome.browserAction.setIcon({path: "simple_on.png", tabId: activeTab.id});
+      chrome.browserAction.setIcon({path: "refresh_on.png", tabId: activeTab.id});
     } else {
-      chrome.browserAction.setIcon({path: "simple_off.png", tabId: activeTab.id});
+      chrome.browserAction.setIcon({path: "refresh_off.png", tabId: activeTab.id});
     }
   });
 });
