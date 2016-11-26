@@ -1,10 +1,18 @@
 //Set initial state of extension
 var reloadState = {
   active: false,
-  time: 5000 //Time in ms for reload timeout
+  time: 8000 //Time in ms for reload timeout
 }
 
-//When extension is clicke, toggle the state of the extenstion
+function updateTabIcon(id) {
+  if (reloadState.active) {
+    chrome.browserAction.setIcon({path: "refresh_on.png", tabId: id});
+  } else {
+    chrome.browserAction.setIcon({path: "refresh_off.png", tabId: id});
+  }
+}
+
+//When extension is clicked, toggle the state of the extenstion
 chrome.browserAction.onClicked.addListener(function(tab) {
   console.log("Simple Refresh");
 
@@ -16,11 +24,18 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     //Send the updated state to the page
     chrome.tabs.sendMessage(activeTab.id, reloadState);
 
-    if (reloadState.active) {
-      chrome.browserAction.setIcon({path: "refresh_on.png", tabId: activeTab.id});
-    } else {
-      chrome.browserAction.setIcon({path: "refresh_off.png", tabId: activeTab.id});
-    }
+    //Update icon
+    updateTabIcon(activeTab.id);
+  });
+});
+
+chrome.tabs.onUpdated.addListener(function () {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    //Grab the active tab
+    var activeTab = tabs[0];
+
+    //Set icon according to state
+    updateTabIcon(activeTab.id);
   });
 });
 
