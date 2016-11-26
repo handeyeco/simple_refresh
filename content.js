@@ -8,8 +8,10 @@ function handleTimeout() {
 //Set a timeout or remove timeout based on state
 function toggleTimeout() {
   if (reloadState.active) {
+    console.log("Refresh in " + (reloadState.time / 1000) + " seconds");
     currentTimeout = window.setTimeout(handleTimeout, reloadState.time);
   } else {
+    console.log("Refresh cancelled");
     window.clearTimeout(currentTimeout);
   }
 }

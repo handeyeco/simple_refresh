@@ -6,7 +6,7 @@ var reloadState = {
 
 //When extension is clicke, toggle the state of the extenstion
 chrome.browserAction.onClicked.addListener(function(tab) {
-  console.log("Clicked");
+  console.log("Simple Refresh");
 
   //Select the tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
